@@ -1,12 +1,14 @@
+
 import requests
 from tmdbv3api import Discover
 from movie_api_call import MovieApi
 from PyQt5.QtWidgets import QListWidgetItem
 from PyQt5.QtGui import QPixmap, QIcon
 from function_navigation import Navigation
+from threading import *
+
 
 class MovieGerne(MovieApi):
-    reqs = requests.Session()
     def __init__(self, region):
         super().__init__(region)
 
@@ -42,14 +44,17 @@ class MovieGerne(MovieApi):
 
 
 class GerneListLoad(MovieGerne):
-
     def __init__(self, gerne, region):
         super().__init__(region)
         self.movie_list = self.movies_gerne(gerne)
 
+    def thread(self, lists, screen):
+        movie_load = Thread(target=self.movie_list_load, args=(lists, screen))
+        movie_load.start()
+
     def movie_list_load(self, lists, screen):
         for title, image_url in self.movie_list.items():
-            image_data = GerneListLoad.reqs.get(image_url).content
+            image_data = MovieApi.req.get(image_url).content
 
             # Create a QListWidgetItem with the title and image
             item = QListWidgetItem(title)

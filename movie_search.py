@@ -2,23 +2,17 @@
 from movie_api_call import MovieApi
 from PyQt5.QtWidgets import QListWidgetItem
 from PyQt5.QtGui import QPixmap, QIcon
+from threading import *
 
-class MovieSearch(MovieApi):
+
+class SearchListLoad(MovieApi):
     def __init__(self, name, region):
         super().__init__(region)
-        self.name = name
+        self.movie_list = self.movie_popular_detail(self.movie.search(name))
 
-    def movie_popular_detail(self):
-        self.recommendations = self.movie.search(self.name)
-
-        return {recommendation.title: f'{self.image_link}{recommendation.poster_path}' for recommendation in
-                self.recommendations}
-
-
-class SearchListLoad(MovieSearch):
-    def __init__(self, name, region):
-        super().__init__(name, region)
-        self.movie_list = self.movie_popular_detail()
+    def thread(self, *args):
+        movie_load = Thread(target=self.movie_list_load, args=args)
+        movie_load.start()
 
     def movie_list_load(self, lists):
         for title, image_url in self.movie_list.items():

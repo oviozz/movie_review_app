@@ -547,6 +547,7 @@ class Ui_main_window(object):
         item.setText(_translate("main_window", "MYSTERY"))
         self.movie_lists_gerne.setSortingEnabled(__sortingEnabled)
 
+
     def movie_navigation(self, screen):
         return Navigation.screen_navigator(self.screens, screen)
 
@@ -564,7 +565,7 @@ class Ui_main_window(object):
 
             self.movie_lists.clear()
             list_load = GerneListLoad(category.text(), Region.region_code(self.list_sorting.currentText()))
-            list_load.movie_list_load(self.movie_lists, self.screens)
+            list_load.thread(self.movie_lists, self.screens)
 
 
     def language_change(self, region):
@@ -577,7 +578,7 @@ class Ui_main_window(object):
     def search_movies(self, movie_name):
         self.movie_search_lists.clear()
 
-        SearchListLoad(movie_name.text(), Region.region_code(self.list_sorting.currentText())).movie_list_load(self.movie_search_lists)
+        SearchListLoad(movie_name.text(), Region.region_code(self.list_sorting.currentText())).thread(self.movie_search_lists)
         return self.movie_navigation(2)
 
 

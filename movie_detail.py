@@ -44,10 +44,10 @@ class MovieDetail(MovieApi):
             return Navigation.screen_navigator(screen, 1)
 
         except:
-            print('Not working')
+            ...
 
     def image_load(self, image, movie_detail_items):
-        image_data = MovieDetail.req.get(movie_detail_items['ImageURL']).content
+        image_data = MovieApi.req.get(movie_detail_items['ImageURL']).content
 
         pixmap = QPixmap()
         pixmap.loadFromData(image_data)

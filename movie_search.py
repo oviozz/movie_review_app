@@ -1,6 +1,7 @@
 
 from movie_api_call import MovieApi
 from PyQt5.QtWidgets import QListWidgetItem
+from function_navigation import Navigation
 from PyQt5.QtGui import QPixmap, QIcon
 from threading import *
 
@@ -14,7 +15,7 @@ class SearchListLoad(MovieApi):
         movie_load = Thread(target=self.movie_list_load, args=args)
         movie_load.start()
 
-    def movie_list_load(self, lists):
+    def movie_list_load(self, lists, screens):
         for title, image_url in self.movie_list.items():
             if not ('w500None' in image_url):
                 image_data = MovieApi.req.get(image_url).content
@@ -25,3 +26,5 @@ class SearchListLoad(MovieApi):
                 icon = QIcon(pixmap)
                 item.setIcon(icon)
                 lists.addItem(item)
+                
+        return Navigation.screen_navigator(screens, 2)

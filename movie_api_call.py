@@ -16,17 +16,15 @@ class MovieApi:
         self.image_link = 'https://image.tmdb.org/t/p/w500'
         self.movie = Movie()
 
-    def movie_popular_detail(self):
-        self.recommendations = self.movie.popular()
+    def movie_popular_detail(self, popular):
 
         return {recommendation.title: f'{self.image_link}{recommendation.poster_path}' for recommendation in
-                self.recommendations}
+                popular}
 
 class MovieListLoad(MovieApi):
-
     def __init__(self, region):
         super().__init__(region)
-        self.movie_list = self.movie_popular_detail()
+        self.movie_list = self.movie_popular_detail(self.movie.popular())
 
     def movie_list_load(self, lists):
         for title, image_url in self.movie_list.items():

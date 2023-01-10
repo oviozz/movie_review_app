@@ -576,10 +576,11 @@ class Ui_main_window(object):
 
 
     def search_movies(self, movie_name):
-        self.movie_search_lists.clear()
+        if movie_name.text():
+            self.movie_search_lists.clear()
 
-        SearchListLoad(movie_name.text(), Region.region_code(self.list_sorting.currentText())).thread(self.movie_search_lists)
-        return self.movie_navigation(2)
+            SearchListLoad(movie_name.text(), Region.region_code(self.list_sorting.currentText())).thread(self.movie_search_lists)
+            return self.movie_navigation(2)
 
 
 

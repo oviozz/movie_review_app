@@ -4,3 +4,6 @@
 
 Clicking on the movie shows:
 ![image](https://user-images.githubusercontent.com/42685801/211488758-d87f0e8f-ed22-4231-9548-f9ad54393395.png)
+
+Searching movies:
+![image](https://user-images.githubusercontent.com/42685801/211489090-b7580653-f7ed-4e29-9e25-bac127c5359e.png)

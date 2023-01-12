@@ -26,5 +26,5 @@ class SearchListLoad(MovieApi):
                 icon = QIcon(pixmap)
                 item.setIcon(icon)
                 lists.addItem(item)
-                
+
         return Navigation.screen_navigator(screens, 2)

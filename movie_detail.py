@@ -1,8 +1,11 @@
 
+
 from movie_api_call import MovieApi
-from PyQt5.QtGui import QPixmap
+from PyQt5.QtWidgets import QListWidgetItem
+from PyQt5.QtGui import QPixmap, QIcon
 from function_navigation import Navigation
 import webbrowser
+from threading import *
 
 
 class MovieDetail(MovieApi):
@@ -26,13 +29,14 @@ class MovieDetail(MovieApi):
             'Gernes': f"Genre: {', '.join(sorted([gerne['name'] for gerne in movie_info['genres']], key=lambda x: len(x))[:2])}"
         }
 
-    def detail_apply(self, movie_name, title, img_url, overview, rating, release, saftey, language, gernes, screen):
+    def detail_apply(self, movie_name, title, img_url, overview, rating, release, saftey, language, gernes, screen, similar_screen):
 
         try:
             movie_detail_items = self.movie_details(movie_name)
 
             title.setText(movie_name)
             self.image_load(img_url, movie_detail_items)
+            self.thread(movie_name, similar_screen)
             overview.setText(movie_detail_items['Overview'])
             rating.setText(movie_detail_items["Rating"])
             release.setText(movie_detail_items['Release'])
@@ -40,6 +44,7 @@ class MovieDetail(MovieApi):
             language.setText(movie_detail_items['Language'])
             gernes.setText(movie_detail_items['Gernes'])
             MovieDetail.tralier_url = movie_detail_items['Tralier']
+
 
             return Navigation.screen_navigator(screen, 1)
 
@@ -58,6 +63,27 @@ class MovieDetail(MovieApi):
     def youtube_button(cls):
         if MovieDetail.tralier_url:
             return webbrowser.open(MovieDetail.tralier_url)
+
+
+    def thread(self, movie_name, lists):
+        lists.clear()
+        similar_load = Thread(target=self.similar_movies, args=(movie_name, lists)).start()
+
+
+
+    def similar_movies(self, movie_name, lists):
+
+        for title, image_url in dict(list(self.movie_popular_detail(self.movie.similar(self.movie.search(movie_name)[0]['id'])).items())[:4]).items():
+            image_data = MovieApi.req.get(image_url).content
+
+            # Create a QListWidgetItem with the title and image
+            item = QListWidgetItem(title)
+            pixmap = QPixmap()
+            pixmap.loadFromData(image_data)
+            icon = QIcon(pixmap)
+            item.setIcon(icon)
+            lists.addItem(item)
+
 
 
 

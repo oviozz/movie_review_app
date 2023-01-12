@@ -2,6 +2,7 @@
 from tmdbv3api import TMDb, Movie
 from PyQt5.QtWidgets import QListWidgetItem
 from PyQt5.QtGui import QPixmap, QIcon
+from threading import *
 import requests
 
 
@@ -28,7 +29,7 @@ class MovieListLoad(MovieApi):
 
     def movie_list_load(self, lists):
         for title, image_url in self.movie_list.items():
-            image_data = MovieListLoad.req.get(image_url).content
+            image_data = MovieApi.req.get(image_url).content
 
             # Create a QListWidgetItem with the title and image
             item = QListWidgetItem(title)
@@ -37,3 +38,6 @@ class MovieListLoad(MovieApi):
             icon = QIcon(pixmap)
             item.setIcon(icon)
             lists.addItem(item)
+
+    def language_change(self, lists):
+        load = Thread(target=self.movie_list_load, args=(lists,)).start()

@@ -1,5 +1,4 @@
 
-import requests
 from tmdbv3api import Discover
 from movie_api_call import MovieApi
 from PyQt5.QtWidgets import QListWidgetItem
@@ -49,10 +48,12 @@ class GerneListLoad(MovieGerne):
         self.movie_list = self.movies_gerne(gerne)
 
     def thread(self, lists, screen):
-        movie_load = Thread(target=self.movie_list_load, args=(lists, screen))
+        movie_load = Thread(target=self.movie_list_load, args=(lists, ))
         movie_load.start()
 
-    def movie_list_load(self, lists, screen):
+        Navigation.screen_navigator(screen, 0)
+
+    def movie_list_load(self, lists):
         for title, image_url in self.movie_list.items():
             image_data = MovieApi.req.get(image_url).content
 
@@ -64,4 +65,3 @@ class GerneListLoad(MovieGerne):
             item.setIcon(icon)
             lists.addItem(item)
 
-        return Navigation.screen_navigator(screen, 0)

@@ -11,9 +11,10 @@ class SearchListLoad(MovieApi):
         super().__init__(region)
         self.movie_list = self.movie_popular_detail(self.movie.search(name))
 
-    def thread(self, *args):
-        movie_load = Thread(target=self.movie_list_load, args=args)
-        movie_load.start()
+    def thread(self, lists, screens):
+        movie_load = Thread(target=self.movie_list_load, args=(lists,).start()
+        
+        Navigation.screen_navigator(screens, 2)
 
     def movie_list_load(self, lists, screens):
         for title, image_url in self.movie_list.items():
@@ -26,5 +27,3 @@ class SearchListLoad(MovieApi):
                 icon = QIcon(pixmap)
                 item.setIcon(icon)
                 lists.addItem(item)
-
-        return Navigation.screen_navigator(screens, 2)

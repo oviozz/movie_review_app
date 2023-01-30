@@ -9,6 +9,6 @@ Clicking on the movie shows:
 Searching movies:
 ![image](https://user-images.githubusercontent.com/42685801/211489090-b7580653-f7ed-4e29-9e25-bac127c5359e.png)
 
-Language change:
+Language change ( USA, HINDI, FRENCH, JAPANESE, CHINESE ) :
 ![image](https://user-images.githubusercontent.com/42685801/211951758-b5046f31-19d1-42ed-915e-e43d222075e2.png)
 
